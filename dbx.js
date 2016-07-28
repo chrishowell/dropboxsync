@@ -9,7 +9,7 @@ var config = JSON.parse(configFile);
 
 var dbx = new Dropbox({ accessToken: config.dbx.accessToken });
 
-var redisClient = redis.createClient();
+var redisClient = redis.createClient(config.redis);
 redisClient.on("error", function (err) {
     console.log("RedisError " + err);
 });
