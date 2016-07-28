@@ -9,7 +9,7 @@ var config = JSON.parse(configFile);
 
 exports.handle = function(event, context, callback) {
   var dbx = new Dropbox({ accessToken: config.dbx.accessToken });
-  const redisClient = redis.createClient(config.redis);
+  var redisClient = redis.createClient(config.redis);
 
   redisClient.on("error", function (err) {
       console.log("RedisError " + err);
@@ -21,7 +21,7 @@ exports.handle = function(event, context, callback) {
       fetchLatestCursor(dbx, sync);
     } else {
       console.log('Fetched latest cursor from Redis');
-      sync(dbx, cursor, (cursor) => { saveLatestCursor(redisClient, cursor) });
+      sync(dbx, cursor, (cursor) => { saveCursor(redisClient, cursor) });
     }
   });
 }
@@ -33,7 +33,7 @@ function fetchLatestCursor(dbx, callback) {
   .catch(error => console.log(error));
 }
 
-function saveLatestCursor(redisClient, cursor) {
+function saveCursor(redisClient, cursor) {
   console.log('Saving cursor ' + cursor);
   redisClient.set(CURSOR_KEY, cursor);
 }
