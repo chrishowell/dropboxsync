@@ -4,10 +4,10 @@ var Dropbox = require('dropbox');
 var fs = require('fs');
 var redis = require('redis');
 
-var credentialsFile = fs.readFileSync("credentials.json");
-var credentials = JSON.parse(credentialsFile);
+var configFile = fs.readFileSync("config.json");
+var config = JSON.parse(configFile);
 
-var dbx = new Dropbox({ accessToken: credentials.accessToken });
+var dbx = new Dropbox({ accessToken: config.dbx.accessToken });
 
 var redisClient = redis.createClient();
 redisClient.on("error", function (err) {
