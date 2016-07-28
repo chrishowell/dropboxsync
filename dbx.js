@@ -1,5 +1,10 @@
 var Dropbox = require('dropbox');
-var dbx = new Dropbox({ accessToken: 'tffJxFV2gxAAAAAAAAAAsdxX8bFIT44uOQZO2x7D8-xiq0mzdhop8NIwyxOwVMKU' });
+var fs = require('fs');
+
+var credentialsFile = fs.readFileSync("credentials.json");
+var credentials = JSON.parse(credentialsFile);
+
+var dbx = new Dropbox({ accessToken: credentials.accessToken });
 
 // This would be done once and the cursor kept in Redis
 var latestCursor = '';
